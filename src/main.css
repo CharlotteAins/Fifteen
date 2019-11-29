@@ -1,0 +1,59 @@
+.board {
+    width: 340px;
+    margin: 100px auto;
+    margin-bottom: 0px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-gap: 5px;
+    padding: 5px;
+
+    background-color: #85ba6a;
+    border: 3px solid #01121c;
+}
+
+.chip {
+
+    background-color: #1a7749;
+    border: 2px solid #0b2e2f;
+    border-radius: 5px;
+    color: antiquewhite;
+
+    text-align: center;
+    vertical-align: middle;
+    font-size: 55px;
+}
+
+div.empty {
+    background-color: #85ba6a;
+    border: 0px solid #0b2e2f;
+}
+
+.winMessage {
+    width: 500px;
+    margin: 15px auto;
+    padding: 10px;
+
+    background-color: darkgoldenrod;
+    border: 3px solid orange;
+    border-radius: 5px;
+    color: antiquewhite;
+
+    font-size: 20px;
+    text-align: center;
+}
+
+.restart-btn {
+    display: block;
+    width: 100px;
+    margin: 20px auto;
+
+    background-color: #1a7749;
+    border: 2px solid #0b2e2f;
+    border-radius: 5px;
+    color: antiquewhite;
+
+    font-size: 20px;
+    text-align: center;
+}
