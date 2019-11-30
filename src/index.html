@@ -6,6 +6,20 @@
     <title>Fifteen</title>
 </head>
 <body>
+    <form class="difficultForm">
+        <fieldset>
+            <legend>Choose level of difficult</legend>
+            <label>3x3<input type="radio" name="difficult" value="3"></label>
+            <label>4x4<input type="radio" name="difficult" value="4" checked></label>
+            <label>5x5<input type="radio" name="difficult" value="5"></label>
+            <label>6x6<input type="radio" name="difficult" value="6"></label>
+            <label>7x7<input type="radio" name="difficult" value="7"></label>
+            <label>8x8<input type="radio" name="difficult" value="8"></label>
+            <label>9x9<input type="radio" name="difficult" value="9"></label>
+            <label>10x10<input type="radio" name="difficult" value="10"></label>
+            <input class="chooseBtn" type="submit" value="Choose"/>
+        </fieldset>
+    </form>
     <div class="board"></div>
     <button class="restart-btn" type="button" id="restart">Shuffle</button>
 <script src="index.js"></script>

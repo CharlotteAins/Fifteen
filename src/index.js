@@ -1,18 +1,27 @@
 "use strict";
 
-let start = new Date();
-
-const winStatus = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
-
+const difficultForm = document.querySelector(".difficultForm");
 const board = document.querySelector(".board");
+const btn = document.getElementById("restart");
+let difficult = 4;
+let start = new Date();
+const winStatus = [];
+let boardStatus = [...winStatus, ''];
 
-const boardStatus = [...winStatus, ''];
+difficultForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    difficult = this.querySelector("input:checked").value;
+    makeField(difficult);
+    restart();
+});
+
+makeField(difficult);
 
 board.addEventListener("click", function (e) {
     if (e.target.classList.contains("chip")) {
         const indexOfTargetChip = boardStatus.indexOf(e.target.textContent);
-        const indexOfEmptyChip = findEmptyChip(indexOfTargetChip);
-        if (indexOfEmptyChip || indexOfEmptyChip == 0) {
+        const indexOfEmptyChip = findEmptyChip(indexOfTargetChip, boardStatus);
+        if (indexOfEmptyChip || indexOfEmptyChip === 0) {
             let temp = boardStatus[indexOfTargetChip];
             boardStatus[indexOfTargetChip] = boardStatus[indexOfEmptyChip];
             boardStatus[indexOfEmptyChip] = temp;
@@ -23,6 +32,9 @@ board.addEventListener("click", function (e) {
         }
     }
 });
+
+
+btn.addEventListener("click", (event) => restart());
 
 restart();
 
@@ -39,49 +51,41 @@ function renderBoard() {
     });
 }
 
-function findEmptyChip(i) {
+function findEmptyChip(i , board) {
+    const side = Math.sqrt(board.length);
     let emptyChipIndex;
-    if (i > 3) {
-        if (!boardStatus[i - 4].length) {
-            emptyChipIndex = i - 4;
+    if (i > side - 1) {
+        if (!board[i - side].length) {
+            emptyChipIndex = i - side;
         }
     }
-    if (i < 12) {
-        if (!boardStatus[i + 4].length) {
-            emptyChipIndex = i + 4;
+    if (i < board.length - side) {
+        if (!board[i + side].length) {
+            emptyChipIndex = i + side;
         }
     }
-    if (i % 4 != 0) {
-        if (!boardStatus[i - 1].length) {
+    if (i % side !== 0) {
+        if (!board[i - 1].length) {
             emptyChipIndex = i - 1;
         }
     }
-    if (i % 4 != 3) {
-        if (!boardStatus[i + 1].length) {
+    if (i % side !== side - 1) {
+        if (!board[i + 1].length) {
             emptyChipIndex = i + 1;
         }
     }
     return emptyChipIndex;
+
 }
 
 function checkIfWin() {
-    return boardStatus.slice(0, 15).join() == winStatus.join();
-}
+    return boardStatus.slice(0, winStatus.length).join() == winStatus.join();
 
-const btn = document.getElementById("restart");
-btn.addEventListener("click", (e) => {
-    // shuffle(boardStatus)
-    document.querySelector(".winMessage") && document.querySelector(".winMessage").remove();
-    restart();
-});
+}
 
 function shuffleBoard() {
+    start = new Date();
     board.children[getRandomIndex()].dispatchEvent(new Event("click", {bubbles: true}));
-    document.querySelector(".winMessage") && document.querySelector(".winMessage").remove();
-}
-
-function getRandomIndex() {
-    return Math.floor(Math.random() * (15 - 0 + 1)) + 0;
 }
 
 function restart() {
@@ -92,6 +96,23 @@ function restart() {
     while (!board.lastElementChild.textContent == '') {
         shuffleBoard();
     }
+    document.querySelector(".winMessage")
+    && document.querySelectorAll(".winMessage").forEach(el => el.remove());
+}
+
+function makeField(num) {
+    winStatus.length = 0;
+    for(let i = 1; i < num ** 2; i++) {
+        winStatus.push(`${i}`);
+    }
+    boardStatus = [...winStatus, ''];
+    board.style.width = `${73 * num}px`;
+    board.style.gridTemplateColumns = `repeat(${num}, 1fr)`;
+    board.style.gridTemplateRows = `repeat(${num}, 1fr)`;
+}
+
+function getRandomIndex() {
+    return Math.floor(Math.random() * (difficult ** 2));
 }
 
 function showWin() {
